@@ -9,6 +9,7 @@ import '../../models/ItemModel.dart';
 import '../all_product/AllProductScreen.dart';
 import '../brands/brands_screen.dart';
 import '../home_screen1/HomeScreen.dart';
+import '../product_detail/product_detail_screen.dart';
 import 'home_controller.dart';
 
 
@@ -637,9 +638,9 @@ class HomeScreen extends StatelessWidget {
                 return GestureDetector(
                   onTap: () {
                     if (isTrending) {
-                      Get.to(() => AllProductScreen(trending: true));
+                      Get.to(() => ProductDetailScreen(productId: p.id!));
                     } else {
-                      Get.to(() => AllProductScreen(categoryId: categoryId));
+                      Get.to(() => ProductDetailScreen(productId: p.id!));
                     }
                   },
                   child: Container(
