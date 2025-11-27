@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 class ApiUserResponse {
   final String? message;
   final bool? status;
   final User? data;
   final String? token;
-  final String? code;
+  final int? code;
 
   ApiUserResponse({
     this.message,

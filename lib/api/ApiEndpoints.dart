@@ -10,4 +10,7 @@ class ApiEndpoints {
   static const String getAllProductCategory = "${baseUrl}api/getallproductcategory2";
   static const String getAllBrand = "${baseUrl}api/get-brand";
   static const String getProductDetail = "${baseUrl}api/getProductDetail2";
+  static const String getLoginOpt = "${baseUrl}api/loginopt";
+  static const String sendOtp = "${baseUrl}api/sendopt";
+  static const String registor = "${baseUrl}api/registeropt";
 }

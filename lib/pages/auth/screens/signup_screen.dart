@@ -165,14 +165,28 @@ class SignupScreen extends StatelessWidget {
 
                   const SizedBox(height: 10),
 
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 50),
-                      backgroundColor: AppColors.primary,
-                    ),
-                    onPressed: controller.signUp,
-                    child: const Text("Continue", style: TextStyle(fontSize: 18)),
-                  ),
+                  Obx(() {
+                    return ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 50),
+                        backgroundColor: AppColors.primary,
+                      ),
+                      onPressed: controller.isLoading.value ? null : controller.signUp,
+                      child: controller.isLoading.value
+                          ? const SizedBox(
+                        height: 22,
+                        width: 22,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                          : const Text(
+                        "Continue",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    );
+                  }),
 
                   const SizedBox(height: 15),
 

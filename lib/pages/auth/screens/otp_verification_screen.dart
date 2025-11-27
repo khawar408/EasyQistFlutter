@@ -70,14 +70,25 @@ class OtpVerificationScreen extends StatelessWidget {
                 ),
 
                 const SizedBox(height: 30),
-                ElevatedButton(
+              Obx(() {
+              return ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
                     backgroundColor: AppColors.primary,
                   ),
-                  onPressed: controller.verifyOTP,
-                  child: const Text("Continue", style: TextStyle(fontSize: 18)),
-                ),
+                  onPressed:controller.isLoading.value ? null : controller.verifyOTP,
+                  child: controller.isLoading.value
+                      ?const SizedBox(
+                    height: 22,
+                    width: 22,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                      : const Text("Continue", style: TextStyle(fontSize: 18)),
+                );
+              }),
                 const SizedBox(height: 20),
 
                 Obx(() => TextButton(

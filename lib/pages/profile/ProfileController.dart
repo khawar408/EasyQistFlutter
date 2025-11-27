@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../storage/data_storage_repository.dart';
+import '../../util/Singleton.dart';
 import '../../util/app_routes.dart';
 
 class ProfileController extends GetxController {
@@ -14,7 +16,7 @@ class ProfileController extends GetxController {
 
   void onLoginClick() {
     // Navigate to login
-    Get.offAllNamed(AppRoutes.login);
+    Get.toNamed(AppRoutes.login);
   }
 
   void onTrackOrder() => print("Track Order Clicked");
@@ -27,8 +29,10 @@ class ProfileController extends GetxController {
   void onPrivacy() => print("Privacy & Policy Clicked");
   void onTerms() => print("Terms & Conditions Clicked");
   void onEditProfile() => print("Edit Profile Clicked");
-  void logout() {
+  Future<void> logout() async {
     checkLogin.value = false;
+    final storage = DataStorageRepository();
+    await storage.clearUserData();
     print("User Logged Out");
   }
 
@@ -71,5 +75,26 @@ class ProfileController extends GetxController {
       Get.snackbar("Error", "Something went wrong: $e");
     }
   }
+
+  @override
+  void onInit() {
+    super.onInit();
+    // Initialize login & user from Singleton/DataStorage
+    checkLogin.value = Singleton.isLogin.value;
+    if (Singleton.user.value != null) {
+      userName.value = Singleton.user.value!.name ?? "User";
+      //userImage.value = Singleton.user.value!.profileImage ?? userImage.value;
+    }
+
+    // Listen to singleton login changes
+    ever(Singleton.isLogin, (val) {
+      checkLogin.value = val;
+      if (val && Singleton.user.value != null) {
+        userName.value = Singleton.user.value!.name ?? "User";
+        //userImage.value = Singleton.user.value!.profileImage ?? userImage.value;
+      }
+    });
+  }
+
 }
 

@@ -80,17 +80,28 @@ class LoginScreen extends StatelessWidget {
                     onChanged: (val) => controller.mobileNumber.value = val,
                   ),
                   const SizedBox(height: 30),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 50),
-                      backgroundColor: AppColors.primary,
-                    ),
-                    onPressed: controller.login,
-                    child: const Text(
-                      "Continue",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
+                  Obx(() {
+                    return ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 50),
+                        backgroundColor: AppColors.primary,
+                      ),
+                      onPressed: controller.isLoading.value ? null : controller.login,
+                      child: controller.isLoading.value
+                          ? const SizedBox(
+                        height: 22,
+                        width: 22,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                          : const Text(
+                        "Continue",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    );
+                  }),
                   const SizedBox(height: 20),
                   RichText(
                     text: TextSpan(
