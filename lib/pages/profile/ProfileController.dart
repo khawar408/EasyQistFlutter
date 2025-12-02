@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -6,6 +8,7 @@ import '../../util/Singleton.dart';
 import '../../util/app_routes.dart';
 
 class ProfileController extends GetxController {
+  final _repo = DataStorageRepository();
   var userName = "Hassam Rana".obs;
   var userImage = "https://images.unsplash.com/photo-1603415526960-f7e0328e5f64?w=500".obs;
   var checkLogin = false.obs;
@@ -30,7 +33,8 @@ class ProfileController extends GetxController {
   void onTerms() => print("Terms & Conditions Clicked");
   void onEditProfile() => print("Edit Profile Clicked");
   Future<void> logout() async {
-    checkLogin.value = false;
+    Singleton.isLogin.value = false;
+    Singleton.user.value=null;
     final storage = DataStorageRepository();
     await storage.clearUserData();
     print("User Logged Out");
@@ -88,13 +92,33 @@ class ProfileController extends GetxController {
 
     // Listen to singleton login changes
     ever(Singleton.isLogin, (val) {
+
       checkLogin.value = val;
       if (val && Singleton.user.value != null) {
         userName.value = Singleton.user.value!.name ?? "User";
         //userImage.value = Singleton.user.value!.profileImage ?? userImage.value;
       }
     });
+    retrieveData();
   }
 
+
+  void retrieveData() {
+
+    final user = _repo.getUser();
+    if (user != null) {
+      Singleton.user.value = user;
+      Singleton.isLogin.value = _repo.getIsLogin();
+    }
+
+    final vendor = _repo.getVendorUser();
+    if (vendor != null) {
+      Singleton.userVendor.value = vendor;
+      Singleton.checkVendorLogin.value = true;
+      log('✅ Vendor loaded: ${vendor.toJson()}');
+    }
+
+    Singleton.notificationToken = _repo.getToken() ?? '';
+  }
 }
 

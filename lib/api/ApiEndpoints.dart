@@ -13,4 +13,5 @@ class ApiEndpoints {
   static const String getLoginOpt = "${baseUrl}api/loginopt";
   static const String sendOtp = "${baseUrl}api/sendopt";
   static const String registor = "${baseUrl}api/registeropt";
+  static const String view_order_card = "${baseUrl}api/view_order_card";
 }

@@ -19,53 +19,37 @@ class SplashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    retrieveData();
+    // retrieveData();
     _startDelay();
   }
 
-  void retrieveData() {
-    checkFirst.value = _repo.getCheckFirstTime();
-    checkVFirst.value = _repo.getCheckVFirstTime();
-    isLogin.value = _repo.getIsLogin();
-    isVendorLogin.value = _repo.getIsVendorLogin();
+  // void retrieveData() {
+  //   checkFirst.value = _repo.getCheckFirstTime();
+  //   checkVFirst.value = _repo.getCheckVFirstTime();
+  //   isLogin.value = _repo.getIsLogin();
+  //   isVendorLogin.value = _repo.getIsVendorLogin();
+  //
+  //   log('✅ User loaded: ${isLogin.value}');
+  //
+  //   final user = _repo.getUser();
+  //   if (user != null) {
+  //     Singleton.user.value = user;
+  //     Singleton.isLogin.value = true;
+  //     log('✅ User loaded: ${user.toJson()}');
+  //     log('✅ User loaded: ${Singleton.isLogin.value}');
+  //   }
+  //
+  //   final vendor = _repo.getVendorUser();
+  //   if (vendor != null) {
+  //     Singleton.userVendor.value = vendor;
+  //     Singleton.checkVendorLogin.value = true;
+  //     log('✅ Vendor loaded: ${vendor.toJson()}');
+  //   }
+  //
+  //   Singleton.notificationToken = _repo.getToken() ?? '';
+  // }
 
-    Singleton.setLogin(isLogin.value);
 
-    final user = _repo.getUser();
-    if (user != null) {
-      Singleton.user.value = user;
-      log('✅ User loaded: ${user.toJson()}');
-    }
-
-    final vendor = _repo.getVendorUser();
-    if (vendor != null) {
-      Singleton.userVendor.value = vendor;
-      Singleton.checkVendorLogin.value = true;
-      log('✅ Vendor loaded: ${vendor.toJson()}');
-    }
-
-    Singleton.notificationToken = _repo.getToken() ?? '';
-  }
-
-  Future<void> saveUser(User user, String token) async {
-    await _repo.saveUser(user);
-    await _repo.saveToken(token);
-    await _repo.saveIsLogin(true);
-    Singleton.user.value = user;
-    Singleton.setLogin(true);
-  }
-
-  Future<void> saveVendor(Vendor vendor, String token) async {
-    await _repo.saveVendorUser(vendor);
-    await _repo.saveToken(token);
-    await _repo.saveIsVendorLogin(true);
-    Singleton.userVendor.value = vendor;
-    Singleton.checkVendorLogin.value = true;
-  }
-
-  void clearUserData() => _repo.clearUserData();
-
-  void clearVendorData() => _repo.clearVendorData();
 
   void _startDelay() async {
     await Future.delayed(const Duration(seconds: 4));
@@ -75,18 +59,18 @@ class SplashController extends GetxController {
   Future<void> _handleNavigation() async {
     int versionCode = await _getVersionCode();
 
-    if (versionCode >= 13) {
-      if (checkVFirst.value) {
-        Singleton.setLogin(false);
-        Singleton.user.value = User();
-        Singleton.getViewCartOrder.value = null;
-        clearUserData();
-      }
-      _navigateNext();
-    } else {
+    // if (versionCode >= 13) {
+    //   if (checkVFirst.value) {
+    //     Singleton.setLogin(false);
+    //     Singleton.user.value = User();
+    //     Singleton.getViewCartOrder.value = null;
+    //     clearUserData();
+    //   }
+    //   _navigateNext();
+    // } else {
       _navigateNext();
       // _showUpdateDialog();
-    }
+   // }
   }
 
   Future<int> _getVersionCode() async {

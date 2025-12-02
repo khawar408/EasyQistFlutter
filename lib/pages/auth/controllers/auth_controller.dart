@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -144,9 +145,17 @@ class AuthController extends GetxController {
         Get.snackbar("Success", "OTP sent successfully");
         await storage.saveUser(response.data!);
         await storage.saveIsLogin(true);
-        Singleton.setLogin(true);
+        print("check login ${response.data.toString()}");
+
         Singleton.user.value=response.data;
-        Get.back();
+        Singleton.setLogin(true);
+        if (Get.context != null) {
+          Navigator.of(Get.context!, rootNavigator: true).pop();
+        } else {
+          Get.back();
+        }
+
+        print("check login ${response.data.toString()}");
       } else {
         Get.snackbar("Error", response?.message ?? "Login failed");
       }

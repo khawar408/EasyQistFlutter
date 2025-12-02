@@ -121,27 +121,31 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: 10),
 
                     /// MENU ITEMS
-                    Column(
+                    Obx(() => Column(
                       children: [
                         if (controller.checkLogin.value)
                           buildMenuCard("Track Order & History", onTap: controller.onTrackOrder),
+
                         if (!controller.checkVendorLogin.value)
                           buildMenuCard("Vendor", onTap: controller.onVendor),
+
                         if (controller.checkVendorLogin.value)
-                          buildMenuCard("Vendor Request Product",
-                              onTap: controller.onVendorRequest),
+                          buildMenuCard("Vendor Request Product", onTap: controller.onVendorRequest),
+
                         if (controller.checkVendorLogin.value)
-                          buildMenuCard("Vendor Request Product List",
-                              onTap: controller.onVendorRequestList),
+                          buildMenuCard("Vendor Request Product List", onTap: controller.onVendorRequestList),
+
                         buildMenuCard("Help & Support", onTap: controller.onHelpSupport),
                         buildMenuCard("Shop Locations", onTap: controller.onMap),
                         buildMenuCard("About Us", onTap: controller.onAboutUs),
                         buildMenuCard("Privacy & Policy", onTap: controller.onPrivacy),
                         buildMenuCard("Terms & Conditions", onTap: controller.onTerms),
+
                         if (controller.checkLogin.value)
                           buildMenuCard("Logout", iconColor: Colors.red, onTap: controller.logout),
                       ],
-                    ),
+                    )),
+
 
                     const SizedBox(height: 20),
 

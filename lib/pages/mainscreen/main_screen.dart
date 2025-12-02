@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import '../../util/Singleton.dart';
 import '../../util/colors.dart';
 import '../brands/brands_screen.dart';
 import '../category/CategoriesScreen.dart';
@@ -22,6 +23,9 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future.microtask(() {
+      if(Singleton.isLogin.value)controller.fetchCart();
+    });
     return Scaffold(
       body: Obx(() => pages[controller.currentIndex.value]),
       bottomNavigationBar: Obx(() => Container(

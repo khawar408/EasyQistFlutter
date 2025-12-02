@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easyqist/util/Singleton.dart';
 import 'package:easyqist/util/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../models/ItemModel.dart';
+import '../../util/app_routes.dart';
 import 'fullscreen_image_viewer.dart';
 import 'product_detail_controller.dart';
 
@@ -46,6 +48,11 @@ class ProductDetailScreen extends StatelessWidget {
             ),
             onPressed: () {
 
+              if(!Singleton.isLogin.value){
+                Get.toNamed(AppRoutes.login);
+              }else{
+                print("Track Order Clicked");
+              }
             },
             child: const Text(
               "Add to Cart",

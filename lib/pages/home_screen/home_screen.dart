@@ -6,6 +6,7 @@ import 'package:marquee/marquee.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../models/ItemModel.dart';
+import '../../util/Singleton.dart';
 import '../all_product/AllProductScreen.dart';
 import '../brands/brands_screen.dart';
 import '../home_screen1/HomeScreen.dart';
@@ -289,11 +290,50 @@ class HomeScreen extends StatelessWidget {
 
               /// Icons
               Row(
-                children: const [
-                  Icon(Icons.shopping_bag_outlined,
-                      color: Colors.white, size: 26),
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Obx(() {
+                    final count = Singleton.getViewCartOrder.value?.orderProducts?.length ?? 0;
+                    return Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Icon(
+                          Icons.shopping_bag_outlined,
+                          color: Colors.white,
+                          size: 26,
+                        ),
+                        if (count > 0)
+                          Positioned(
+                            right: -6,
+                            top: -6,
+                            child: Container(
+                              padding: const EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Colors.white, width: 1),
+                              ),
+                              constraints: const BoxConstraints(
+                                minWidth: 16,
+                                minHeight: 16,
+                              ),
+                              child: Text(
+                                '$count',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                      ],
+                    );
+                  }),
                 ],
               ),
+
             ],
           ),
           const SizedBox(height: 5),
