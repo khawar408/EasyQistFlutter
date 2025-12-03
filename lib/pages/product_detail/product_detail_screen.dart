@@ -51,7 +51,7 @@ class ProductDetailScreen extends StatelessWidget {
               if(!Singleton.isLogin.value){
                 Get.toNamed(AppRoutes.login);
               }else{
-                print("Track Order Clicked");
+                controller.addToCartButtonClick();
               }
             },
             child: const Text(
