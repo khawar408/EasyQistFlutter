@@ -79,7 +79,7 @@ class ViewCartOrder {
 
 class OrderProduct {
   final int? id;
-  final int? orderId;
+  final String? orderId;
   final int? productId;
   final String? orderProductAmount;
   final String? orderProductAdvanceAmount;
@@ -133,7 +133,9 @@ class OrderProduct {
       product: ItemModel.fromJson(json['product']),
       userId: json['user_id'],
       advance: json['advance'],
-      orderInstallment: InstallmentPlan.fromJson(json['orderinstallment']),
+      orderInstallment: json['orderinstallment'] != null
+          ? InstallmentPlan.fromJson(json['orderinstallment'])
+          : InstallmentPlan.empty(),
       orderProductDuration: json['order_product_duration'],
     );
   }

@@ -4,6 +4,7 @@ import 'package:easyqist/api/ApiEndpoints.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import '../../models/ApiResponseViewCart.dart';
 import '../../models/ItemModel.dart';
 import '../../util/Singleton.dart';
 
@@ -191,7 +192,7 @@ class ProductDetailController extends GetxController {
 
    
 
-
+    print("data ${plan.duration}");
     // check if already added previously using API
     await checkProductInCart(productId: item.id!, typeId: type.id!).then((exists) {
       if (exists == true) {
@@ -259,7 +260,7 @@ class ProductDetailController extends GetxController {
 
       final body = {
         "order_session_id": "anson5555", // your session id
-        "order_status": 0,
+        "order_status": "0",
         "user_id": Singleton.user.value?.id.toString(),
         "product_id": productId.toString(),
         "order_product_amount": plan.totalAmount.toString(),
@@ -267,7 +268,7 @@ class ProductDetailController extends GetxController {
         "qty": "1",
         "order_product_status": "0",
         "order_product_installment_id": plan.id.toString(),
-        "order_product_installment": plan.duration,
+        "order_product_installment": plan.duration.toString(),
         "order_product_type_id": typeId.toString(),
         "category_id": detail.value!.categoryId.toString(),
         "brand_id": detail.value!.brandId.toString(),
@@ -279,6 +280,12 @@ class ProductDetailController extends GetxController {
 
       if (res.statusCode == 200) {
         Get.snackbar("Success", "Added to cart");
+        final response = ApiResponseViewCart.fromJson(json.decode(res.body));
+
+        if (response.status == true && response.data != null) {
+          Singleton.order.value = response.data?.id ?? -1;
+          Singleton.getViewCartOrder.value = response.data;
+        }
       // Singleton.cartCount.value++;
       } else {
         Get.snackbar("Failed", "Unable to add product");
@@ -338,6 +345,12 @@ class ProductDetailController extends GetxController {
 
       if (res.statusCode == 200) {
         Get.snackbar("Updated", "Cart quantity updated");
+        final response = ApiResponseViewCart.fromJson(json.decode(res.body));
+
+        if (response.status == true && response.data != null) {
+          Singleton.order.value = response.data?.id ?? -1;
+          Singleton.getViewCartOrder.value = response.data;
+        }
       } else {
         Get.snackbar("Error", "Unable to update cart");
       }

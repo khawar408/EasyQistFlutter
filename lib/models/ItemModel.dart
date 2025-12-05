@@ -202,6 +202,9 @@ class InstallmentPlan {
         .toList()
         : null,
   );
+  factory InstallmentPlan.empty() {
+    return InstallmentPlan();
+  }
 }
 
 class Payment {
