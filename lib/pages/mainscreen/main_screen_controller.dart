@@ -31,7 +31,7 @@ class MainScreenController extends GetxController {
       "user_id": userId.toString(),
       "order_status": orderStatus.toString(),
     });
-
+    print("AddToCart Update Response: ${uri}");
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {

@@ -1,6 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easyqist/util/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../all_product/AllProductScreen.dart';
+import '../product_detail/product_detail_screen.dart';
 import 'cart_controller.dart';
 
 
@@ -13,7 +17,7 @@ class CartPage extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text("My Cart"),
-        backgroundColor: Colors.green,
+          backgroundColor: AppColors.primary,
       ),
 
       body: Obx(() {
@@ -23,8 +27,54 @@ class CartPage extends StatelessWidget {
 
         if (controller.cart.value == null ||
             controller.cart.value!.orderProducts!.isEmpty) {
-          return const Center(child: Text("No products in cart"));
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Empty Cart Image
+                SizedBox(
+                  height: 180,
+                  child: Image.asset(
+                    "assets/icons/empty_cart.png", // change path if needed
+                    fit: BoxFit.contain,
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                const Text(
+                  "No products in cart",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: AppColors.textColor
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                // Search Products Button
+                ElevatedButton(
+                  onPressed: () {
+                    // TODO: navigate to search screen
+                    Get.to(() => AllProductScreen());
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    backgroundColor: AppColors.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Text(
+                    "Search Products",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
+          );
         }
+
 
         return Column(
           children: [
@@ -53,13 +103,28 @@ class CartPage extends StatelessWidget {
                         // Thumbnail
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          child: Image.network(
-                            item.product.thumbnail ?? "",
+                          child: CachedNetworkImage(
+                            imageUrl: item.product.thumbnail ?? "",
                             height: 80,
                             width: 80,
                             fit: BoxFit.cover,
+                            placeholder: (context, url) => Container(
+                              height: 80,
+                              width: 80,
+                              color: Colors.grey.shade300,
+                              child: const Center(
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => Container(
+                              height: 80,
+                              width: 80,
+                              color: Colors.grey.shade300,
+                              child: const Icon(Icons.error, color: Colors.red),
+                            ),
                           ),
                         ),
+
 
                         const SizedBox(width: 12),
 
@@ -101,20 +166,15 @@ class CartPage extends StatelessWidget {
                               // QTY
                               Row(
                                 children: [
+                                  const SizedBox(width: 90),
                                   IconButton(
                                     icon: const Icon(Icons.remove_circle, color: Colors.red),
                                     onPressed: () {
-                                      controller.removeItem(index);
-                                    },
-                                  ),
-
-                                  const SizedBox(width: 8),
-
-                                  IconButton(
-                                    icon: const Icon(Icons.remove),
-                                    onPressed: () {
-                                      if (item.qty! > 1) {
+                                      if( item.qty!>1){
                                         controller.updateQty(index, item.qty! - 1);
+
+                                      }else {
+                                        controller.removeItem(index);
                                       }
                                     },
                                   ),
@@ -122,7 +182,7 @@ class CartPage extends StatelessWidget {
                                   Text("${item.qty}", style: const TextStyle(fontSize: 18)),
 
                                   IconButton(
-                                    icon: const Icon(Icons.add),
+                                    icon: const Icon(Icons.add_circle, color: Colors.green),
                                     onPressed: () {
                                       controller.updateQty(index, item.qty! + 1);
                                     },
@@ -201,7 +261,7 @@ class CartPage extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: AppColors.primary,
                     padding: const EdgeInsets.all(14)),
                 onPressed: () {},
                 child: const Text(

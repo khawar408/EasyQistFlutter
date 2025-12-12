@@ -7,6 +7,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../models/ItemModel.dart';
 import '../../util/Singleton.dart';
+import '../add_to cart/cart_page.dart';
 import '../all_product/AllProductScreen.dart';
 import '../brands/brands_screen.dart';
 import '../home_screen1/HomeScreen.dart';
@@ -289,7 +290,15 @@ class HomeScreen extends StatelessWidget {
               ),
 
               /// Icons
-              Row(
+              InkWell(
+                onTap: () {
+                  // 👉 Navigate to cart screen
+                  Get.to(() => CartPage());
+
+                  // OR if using named route
+                  // Get.toNamed('/cart');
+                },
+                child:Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Obx(() {
@@ -332,7 +341,7 @@ class HomeScreen extends StatelessWidget {
                     );
                   }),
                 ],
-              ),
+              )),
 
             ],
           ),

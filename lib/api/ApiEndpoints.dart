@@ -15,4 +15,5 @@ class ApiEndpoints {
   static const String registor = "${baseUrl}api/registeropt";
   static const String view_order_card = "${baseUrl}api/view_order_card";
   static const String add_to_cart = "${baseUrl}api/add_to_cart";
+  static const String del_order_product = "${baseUrl}api/del_order_product";
 }
